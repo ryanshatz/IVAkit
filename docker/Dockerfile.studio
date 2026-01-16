@@ -1,0 +1,29 @@
+# IVAkit Studio Dockerfile
+FROM oven/bun:1 as base
+WORKDIR /app
+
+# Install dependencies
+FROM base AS deps
+COPY package.json pnpm-lock.yaml* pnpm-workspace.yaml ./
+COPY apps/studio/package.json ./apps/studio/
+COPY packages/shared/package.json ./packages/shared/
+RUN npm install -g pnpm && pnpm install --frozen-lockfile
+
+# Build
+FROM base AS builder
+COPY --from=deps /app/node_modules ./node_modules
+COPY --from=deps /app/apps/studio/node_modules ./apps/studio/node_modules
+COPY . .
+RUN pnpm --filter @ivakit/studio build
+
+# Production
+FROM base AS runner
+ENV NODE_ENV=production
+COPY --from=builder /app/apps/studio/.next ./apps/studio/.next
+COPY --from=builder /app/apps/studio/public ./apps/studio/public
+COPY --from=builder /app/apps/studio/package.json ./apps/studio/
+COPY --from=builder /app/node_modules ./node_modules
+
+WORKDIR /app/apps/studio
+EXPOSE 3000
+CMD ["bun", "run", "start"]

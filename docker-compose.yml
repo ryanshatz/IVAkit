@@ -1,0 +1,77 @@
+version: '3.8'
+
+services:
+  # ===========================================
+  # IVAkit Studio (Frontend)
+  # ===========================================
+  studio:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.studio
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - API_URL=http://api:3001
+    depends_on:
+      - api
+    volumes:
+      - ./apps/studio:/app/apps/studio
+      - ./packages:/app/packages
+      - studio_node_modules:/app/apps/studio/node_modules
+
+  # ===========================================
+  # IVAkit API Server
+  # ===========================================
+  api:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.api
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=file:/app/data/ivakit.db
+      - REDIS_URL=redis://redis:6379
+      - OLLAMA_URL=http://ollama:11434
+    depends_on:
+      - redis
+    volumes:
+      - ./apps/api:/app/apps/api
+      - ./packages:/app/packages
+      - ./data:/app/data
+      - api_node_modules:/app/apps/api/node_modules
+
+  # ===========================================
+  # Redis (Session State)
+  # ===========================================
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+
+  # ===========================================
+  # Ollama (Local LLM)
+  # ===========================================
+  ollama:
+    image: ollama/ollama:latest
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+
+volumes:
+  studio_node_modules:
+  api_node_modules:
+  redis_data:
+  ollama_data:

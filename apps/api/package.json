@@ -1,0 +1,28 @@
+{
+    "name": "@ivakit/api",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "dev": "bun run --hot src/index.ts",
+        "build": "bun build src/index.ts --outdir dist --target bun",
+        "start": "bun run dist/index.js",
+        "test": "vitest run",
+        "clean": "rimraf dist"
+    },
+    "dependencies": {
+        "@ivakit/shared": "workspace:*",
+        "@ivakit/database": "workspace:*",
+        "@ivakit/runtime": "workspace:*",
+        "@ivakit/ai": "workspace:*",
+        "@hono/trpc-server": "^0.3.0",
+        "@trpc/server": "^10.44.0",
+        "hono": "^4.0.0",
+        "superjson": "^2.2.0",
+        "zod": "^3.22.4"
+    },
+    "devDependencies": {
+        "@types/bun": "^1.0.0",
+        "typescript": "^5.3.0",
+        "vitest": "^1.0.0"
+    }
+}

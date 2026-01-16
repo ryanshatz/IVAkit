@@ -1,0 +1,46 @@
+{
+  "name": "ivakit",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Open-source no-code AI Intelligent Virtual Agent builder for contact centers",
+  "license": "MIT",
+  "author": "IVAkit Contributors",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ivakit/ivakit.git"
+  },
+  "keywords": [
+    "iva",
+    "chatbot",
+    "contact-center",
+    "ai",
+    "no-code",
+    "conversation-builder",
+    "virtual-agent"
+  ],
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "test": "turbo run test",
+    "test:e2e": "turbo run test:e2e",
+    "lint": "turbo run lint",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
+    "db:push": "pnpm --filter @ivakit/database db:push",
+    "db:migrate": "pnpm --filter @ivakit/database db:migrate",
+    "db:seed": "pnpm --filter @ivakit/database db:seed",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "clean": "turbo run clean && rimraf node_modules"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "prettier": "^3.1.0",
+    "rimraf": "^5.0.5",
+    "turbo": "^2.0.0",
+    "typescript": "^5.3.0"
+  },
+  "packageManager": "pnpm@8.15.0",
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
