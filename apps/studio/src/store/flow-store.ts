@@ -208,7 +208,9 @@ export const settingsAtom = atomWithStorage('ivakit-settings', {
     ollamaUrl: 'http://localhost:11434',
     ollamaModel: 'llama3.2',
     openaiApiKey: '',
+    openaiModel: 'gpt-4o',
     anthropicApiKey: '',
+    anthropicModel: 'claude-3-sonnet-20240229',
 });
 
 // ============================================================================

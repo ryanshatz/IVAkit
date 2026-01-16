@@ -1,17 +1,41 @@
 'use client';
 
+import { useState } from 'react';
 import { useAtom } from 'jotai';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Server, Brain, Key, Palette, Save, RotateCcw } from 'lucide-react';
+import { X, Server, Brain, Key, Palette, Save, RotateCcw, Eye, EyeOff, Check, AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { settingsAtom, settingsOpenAtom } from '@/store/flow-store';
+
+const AI_PROVIDERS = [
+    { id: 'ollama', name: 'Ollama (Local)', description: 'Free, runs on your machine', icon: '🏠' },
+    { id: 'openai', name: 'OpenAI', description: 'GPT-4, GPT-4o, GPT-3.5', icon: '🤖' },
+    { id: 'anthropic', name: 'Anthropic', description: 'Claude 3 Opus, Sonnet, Haiku', icon: '🧠' },
+] as const;
+
+const OPENAI_MODELS = [
+    { id: 'gpt-4o', name: 'GPT-4o', description: 'Latest multimodal model' },
+    { id: 'gpt-4-turbo', name: 'GPT-4 Turbo', description: 'Powerful and fast' },
+    { id: 'gpt-4', name: 'GPT-4', description: 'Most capable' },
+    { id: 'gpt-3.5-turbo', name: 'GPT-3.5 Turbo', description: 'Fast and affordable' },
+];
+
+const ANTHROPIC_MODELS = [
+    { id: 'claude-3-opus-20240229', name: 'Claude 3 Opus', description: 'Most capable' },
+    { id: 'claude-3-sonnet-20240229', name: 'Claude 3 Sonnet', description: 'Balanced' },
+    { id: 'claude-3-haiku-20240307', name: 'Claude 3 Haiku', description: 'Fast and affordable' },
+];
 
 export function SettingsModal() {
     const [isOpen, setIsOpen] = useAtom(settingsOpenAtom);
     const [settings, setSettings] = useAtom(settingsAtom);
+    const [showApiKey, setShowApiKey] = useState(false);
+    const [testingConnection, setTestingConnection] = useState(false);
+    const [connectionStatus, setConnectionStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
     const updateSetting = <K extends keyof typeof settings>(key: K, value: typeof settings[K]) => {
         setSettings({ ...settings, [key]: value });
+        setConnectionStatus('idle');
     };
 
     const resetToDefaults = () => {
@@ -27,8 +51,59 @@ export function SettingsModal() {
             ollamaUrl: 'http://localhost:11434',
             ollamaModel: 'llama3.2',
             openaiApiKey: '',
+            openaiModel: 'gpt-4o',
             anthropicApiKey: '',
+            anthropicModel: 'claude-3-sonnet-20240229',
         });
+        setConnectionStatus('idle');
+    };
+
+    const testConnection = async () => {
+        setTestingConnection(true);
+        setConnectionStatus('idle');
+
+        try {
+            if (settings.aiProvider === 'ollama') {
+                // Test Ollama connection
+                const response = await fetch(`${settings.ollamaUrl}/api/tags`, {
+                    method: 'GET',
+                });
+                if (response.ok) {
+                    setConnectionStatus('success');
+                } else {
+                    setConnectionStatus('error');
+                }
+            } else if (settings.aiProvider === 'openai') {
+                // Test OpenAI API key (just check format for now)
+                if (settings.openaiApiKey?.startsWith('sk-')) {
+                    setConnectionStatus('success');
+                } else {
+                    setConnectionStatus('error');
+                }
+            } else if (settings.aiProvider === 'anthropic') {
+                // Test Anthropic API key (just check format for now)
+                if (settings.anthropicApiKey?.startsWith('sk-ant-')) {
+                    setConnectionStatus('success');
+                } else {
+                    setConnectionStatus('error');
+                }
+            }
+        } catch {
+            setConnectionStatus('error');
+        }
+
+        setTestingConnection(false);
+    };
+
+    const currentApiKey = settings.aiProvider === 'openai'
+        ? settings.openaiApiKey
+        : settings.aiProvider === 'anthropic'
+            ? settings.anthropicApiKey
+            : '';
+
+    const maskApiKey = (key: string) => {
+        if (!key || key.length < 10) return key;
+        return key.substring(0, 7) + '...' + key.substring(key.length - 4);
     };
 
     return (
@@ -81,15 +156,7 @@ export function SettingsModal() {
                                     </select>
                                 </SettingsRow>
                                 <SettingsRow label="Auto Save">
-                                    <label className="relative inline-flex cursor-pointer items-center">
-                                        <input
-                                            type="checkbox"
-                                            checked={settings.autoSave}
-                                            onChange={(e) => updateSetting('autoSave', e.target.checked)}
-                                            className="peer sr-only"
-                                        />
-                                        <div className="h-5 w-9 rounded-full bg-muted peer-checked:bg-primary peer-focus:ring-2 peer-focus:ring-ring after:absolute after:left-[2px] after:top-[2px] after:h-4 after:w-4 after:rounded-full after:bg-white after:transition-all after:content-[''] peer-checked:after:translate-x-full" />
-                                    </label>
+                                    <Toggle checked={settings.autoSave} onChange={(v) => updateSetting('autoSave', v)} />
                                 </SettingsRow>
                                 {settings.autoSave && (
                                     <SettingsRow label="Auto Save Interval">
@@ -107,55 +174,41 @@ export function SettingsModal() {
                                     </SettingsRow>
                                 )}
                                 <SettingsRow label="Snap to Grid">
-                                    <label className="relative inline-flex cursor-pointer items-center">
-                                        <input
-                                            type="checkbox"
-                                            checked={settings.snapToGrid}
-                                            onChange={(e) => updateSetting('snapToGrid', e.target.checked)}
-                                            className="peer sr-only"
-                                        />
-                                        <div className="h-5 w-9 rounded-full bg-muted peer-checked:bg-primary peer-focus:ring-2 peer-focus:ring-ring after:absolute after:left-[2px] after:top-[2px] after:h-4 after:w-4 after:rounded-full after:bg-white after:transition-all after:content-[''] peer-checked:after:translate-x-full" />
-                                    </label>
-                                </SettingsRow>
-                                <SettingsRow label="Grid Size">
-                                    <input
-                                        type="number"
-                                        value={settings.gridSize}
-                                        onChange={(e) => updateSetting('gridSize', parseInt(e.target.value) || 15)}
-                                        min={5}
-                                        max={50}
-                                        className="w-20 rounded-md border border-input bg-background px-3 py-1.5 text-sm"
-                                    />
+                                    <Toggle checked={settings.snapToGrid} onChange={(v) => updateSetting('snapToGrid', v)} />
                                 </SettingsRow>
                                 <SettingsRow label="Show Minimap">
-                                    <label className="relative inline-flex cursor-pointer items-center">
-                                        <input
-                                            type="checkbox"
-                                            checked={settings.showMinimap}
-                                            onChange={(e) => updateSetting('showMinimap', e.target.checked)}
-                                            className="peer sr-only"
-                                        />
-                                        <div className="h-5 w-9 rounded-full bg-muted peer-checked:bg-primary peer-focus:ring-2 peer-focus:ring-ring after:absolute after:left-[2px] after:top-[2px] after:h-4 after:w-4 after:rounded-full after:bg-white after:transition-all after:content-[''] peer-checked:after:translate-x-full" />
-                                    </label>
+                                    <Toggle checked={settings.showMinimap} onChange={(v) => updateSetting('showMinimap', v)} />
                                 </SettingsRow>
                             </SettingsSection>
 
-                            {/* AI Settings */}
+                            {/* AI Provider Settings */}
                             <SettingsSection title="AI Provider" icon={<Brain className="h-4 w-4" />}>
-                                <SettingsRow label="Provider">
-                                    <select
-                                        value={settings.aiProvider}
-                                        onChange={(e) => updateSetting('aiProvider', e.target.value as 'ollama' | 'openai' | 'anthropic')}
-                                        className="rounded-md border border-input bg-background px-3 py-1.5 text-sm"
-                                    >
-                                        <option value="ollama">Ollama (Local)</option>
-                                        <option value="openai">OpenAI</option>
-                                        <option value="anthropic">Anthropic</option>
-                                    </select>
-                                </SettingsRow>
+                                {/* Provider Selection */}
+                                <div className="space-y-2 mb-4">
+                                    {AI_PROVIDERS.map((provider) => (
+                                        <button
+                                            key={provider.id}
+                                            onClick={() => updateSetting('aiProvider', provider.id)}
+                                            className={`w-full flex items-center gap-3 p-3 rounded-lg border transition-all ${settings.aiProvider === provider.id
+                                                    ? 'border-primary bg-primary/10'
+                                                    : 'border-border hover:border-muted-foreground/50'
+                                                }`}
+                                        >
+                                            <span className="text-2xl">{provider.icon}</span>
+                                            <div className="text-left flex-1">
+                                                <p className="font-medium text-sm">{provider.name}</p>
+                                                <p className="text-xs text-muted-foreground">{provider.description}</p>
+                                            </div>
+                                            {settings.aiProvider === provider.id && (
+                                                <Check className="h-4 w-4 text-primary" />
+                                            )}
+                                        </button>
+                                    ))}
+                                </div>
 
+                                {/* Ollama Settings */}
                                 {settings.aiProvider === 'ollama' && (
-                                    <>
+                                    <div className="space-y-3 border-t border-border pt-3">
                                         <SettingsRow label="Ollama URL">
                                             <input
                                                 type="text"
@@ -174,32 +227,124 @@ export function SettingsModal() {
                                                 className="w-full rounded-md border border-input bg-background px-3 py-1.5 text-sm"
                                             />
                                         </SettingsRow>
-                                    </>
+                                    </div>
                                 )}
 
+                                {/* OpenAI Settings */}
                                 {settings.aiProvider === 'openai' && (
-                                    <SettingsRow label="API Key">
-                                        <input
-                                            type="password"
-                                            value={settings.openaiApiKey}
-                                            onChange={(e) => updateSetting('openaiApiKey', e.target.value)}
-                                            placeholder="sk-..."
-                                            className="w-full rounded-md border border-input bg-background px-3 py-1.5 text-sm"
-                                        />
-                                    </SettingsRow>
+                                    <div className="space-y-3 border-t border-border pt-3">
+                                        <div>
+                                            <label className="text-sm text-muted-foreground flex items-center gap-2 mb-2">
+                                                <Key className="h-3 w-3" />
+                                                API Key
+                                            </label>
+                                            <div className="relative">
+                                                <input
+                                                    type={showApiKey ? 'text' : 'password'}
+                                                    value={settings.openaiApiKey}
+                                                    onChange={(e) => updateSetting('openaiApiKey', e.target.value)}
+                                                    placeholder="sk-..."
+                                                    className="w-full rounded-md border border-input bg-background px-3 py-2 pr-10 text-sm font-mono"
+                                                />
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setShowApiKey(!showApiKey)}
+                                                    className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                                                >
+                                                    {showApiKey ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                                                </button>
+                                            </div>
+                                            <p className="mt-1 text-xs text-muted-foreground">
+                                                Get your API key from <a href="https://platform.openai.com/api-keys" target="_blank" rel="noopener noreferrer" className="text-primary underline">OpenAI Dashboard</a>
+                                            </p>
+                                        </div>
+                                        <SettingsRow label="Model">
+                                            <select
+                                                value={settings.openaiModel || 'gpt-4o'}
+                                                onChange={(e) => updateSetting('openaiModel' as any, e.target.value)}
+                                                className="rounded-md border border-input bg-background px-3 py-1.5 text-sm"
+                                            >
+                                                {OPENAI_MODELS.map((model) => (
+                                                    <option key={model.id} value={model.id}>
+                                                        {model.name}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                        </SettingsRow>
+                                    </div>
                                 )}
 
+                                {/* Anthropic Settings */}
                                 {settings.aiProvider === 'anthropic' && (
-                                    <SettingsRow label="API Key">
-                                        <input
-                                            type="password"
-                                            value={settings.anthropicApiKey}
-                                            onChange={(e) => updateSetting('anthropicApiKey', e.target.value)}
-                                            placeholder="sk-ant-..."
-                                            className="w-full rounded-md border border-input bg-background px-3 py-1.5 text-sm"
-                                        />
-                                    </SettingsRow>
+                                    <div className="space-y-3 border-t border-border pt-3">
+                                        <div>
+                                            <label className="text-sm text-muted-foreground flex items-center gap-2 mb-2">
+                                                <Key className="h-3 w-3" />
+                                                API Key
+                                            </label>
+                                            <div className="relative">
+                                                <input
+                                                    type={showApiKey ? 'text' : 'password'}
+                                                    value={settings.anthropicApiKey}
+                                                    onChange={(e) => updateSetting('anthropicApiKey', e.target.value)}
+                                                    placeholder="sk-ant-..."
+                                                    className="w-full rounded-md border border-input bg-background px-3 py-2 pr-10 text-sm font-mono"
+                                                />
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setShowApiKey(!showApiKey)}
+                                                    className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                                                >
+                                                    {showApiKey ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                                                </button>
+                                            </div>
+                                            <p className="mt-1 text-xs text-muted-foreground">
+                                                Get your API key from <a href="https://console.anthropic.com/account/keys" target="_blank" rel="noopener noreferrer" className="text-primary underline">Anthropic Console</a>
+                                            </p>
+                                        </div>
+                                        <SettingsRow label="Model">
+                                            <select
+                                                value={settings.anthropicModel || 'claude-3-sonnet-20240229'}
+                                                onChange={(e) => updateSetting('anthropicModel' as any, e.target.value)}
+                                                className="rounded-md border border-input bg-background px-3 py-1.5 text-sm"
+                                            >
+                                                {ANTHROPIC_MODELS.map((model) => (
+                                                    <option key={model.id} value={model.id}>
+                                                        {model.name}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                        </SettingsRow>
+                                    </div>
                                 )}
+
+                                {/* Test Connection */}
+                                <div className="mt-4 flex items-center gap-3">
+                                    <Button
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={testConnection}
+                                        disabled={testingConnection}
+                                        className="gap-2"
+                                    >
+                                        {testingConnection ? (
+                                            <span className="h-4 w-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                                        ) : (
+                                            <Server className="h-4 w-4" />
+                                        )}
+                                        Test Connection
+                                    </Button>
+                                    {connectionStatus === 'success' && (
+                                        <span className="flex items-center gap-1 text-sm text-green-500">
+                                            <Check className="h-4 w-4" /> Connected
+                                        </span>
+                                    )}
+                                    {connectionStatus === 'error' && (
+                                        <span className="flex items-center gap-1 text-sm text-red-500">
+                                            <AlertCircle className="h-4 w-4" /> Failed
+                                        </span>
+                                    )}
+                                </div>
                             </SettingsSection>
 
                             {/* Server Settings */}
@@ -257,5 +402,19 @@ function SettingsRow({ label, children }: { label: string; children: React.React
             <span className="text-sm text-muted-foreground">{label}</span>
             {children}
         </div>
+    );
+}
+
+function Toggle({ checked, onChange }: { checked: boolean; onChange: (value: boolean) => void }) {
+    return (
+        <label className="relative inline-flex cursor-pointer items-center">
+            <input
+                type="checkbox"
+                checked={checked}
+                onChange={(e) => onChange(e.target.checked)}
+                className="peer sr-only"
+            />
+            <div className="h-5 w-9 rounded-full bg-muted peer-checked:bg-primary peer-focus:ring-2 peer-focus:ring-ring after:absolute after:left-[2px] after:top-[2px] after:h-4 after:w-4 after:rounded-full after:bg-white after:transition-all after:content-[''] peer-checked:after:translate-x-full" />
+        </label>
     );
 }
