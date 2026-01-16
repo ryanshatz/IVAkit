@@ -1,184 +1,204 @@
-<<<<<<< HEAD
+<div align="center">
+
+<img src="docs/screenshots/logo.png" alt="IVAkit Logo" width="180" />
+
 # IVAkit
-IVAkit is an open-source, no-code platform for building intelligent virtual agents for contact centers. It lets teams visually design conversation flows, connect tools and knowledge, simulate interactions, and run IVAs locally with modern, inspectable AI and a developer-friendly architecture.
-=======
-<p align="center">
-  <img src="docs/screenshots/logo.png" alt="IVAkit Logo" width="300" />
-</p>
 
-<h1 align="center">IVAkit</h1>
+### Open-Source No-Code AI Virtual Agent Builder
 
-<p align="center">
-  <strong>Open-source no-code AI Intelligent Virtual Agent builder for contact centers</strong>
-</p>
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](LICENSE)
+[![Version](https://img.shields.io/badge/Version-0.1.0-green.svg?style=for-the-badge)](#)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue.svg?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Next.js](https://img.shields.io/badge/Next.js-14-black.svg?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=for-the-badge)](#contributing)
 
-<p align="center">
-  <a href="#features">Features</a> •
-  <a href="#screenshots">Screenshots</a> •
-  <a href="#quick-start">Quick Start</a> •
-  <a href="#architecture">Architecture</a> •
-  <a href="#documentation">Documentation</a> •
-  <a href="#contributing">Contributing</a>
-</p>
+**Build, test, and deploy AI-powered conversational agents without writing code.**
 
-<p align="center">
-  <img alt="License" src="https://img.shields.io/badge/license-MIT-blue.svg" />
-  <img alt="Version" src="https://img.shields.io/badge/version-0.1.0-green.svg" />
-  <img alt="PRs Welcome" src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" />
-</p>
+[🚀 Quick Start](#-quick-start) •
+[📸 Screenshots](#-screenshots) •
+[✨ Features](#-features) •
+[📖 Documentation](#-documentation) •
+[🤝 Contributing](#-contributing)
 
 ---
 
-## What is IVAkit?
+</div>
 
-IVAkit is a **visual, no-code conversation builder** and **runtime execution engine** for AI-powered Intelligent Virtual Agents (IVAs). It's designed for contact centers, CX teams, and AI engineers who want to build, test, and deploy conversational AI without writing code.
+## 🎯 What is IVAkit?
 
-### Core Philosophy
+IVAkit is a **visual conversation builder** and **runtime execution engine** for Intelligent Virtual Agents (IVAs). Designed for contact centers, CX teams, and AI engineers who want to create sophisticated conversational AI without the complexity.
 
-- **Deterministic first, LLM second** - LLMs are tools, not magic
-- **Local-first by default** - Run everything on your own infrastructure
-- **No magic hidden behavior** - Everything is inspectable and auditable
-- **Composable, versioned artifacts** - Flows are just JSON
+<div align="center">
 
-> IVAkit IVAs are **systems**, not chatbots.
+| 🏢 **For Contact Centers** | 🧑‍💻 **For Developers** | 🤖 **For AI Teams** |
+|:---:|:---:|:---:|
+| Build support IVAs visually | Extend with custom nodes | Run AI locally or in cloud |
+| No coding required | Full TypeScript SDK | Model-agnostic design |
+| Reduce agent workload | API-first architecture | Prompt engineering tools |
 
----
+</div>
 
-## Screenshots
+### 💡 Core Philosophy
 
-### Visual Flow Builder
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│                                                                     │
+│  🎯 Deterministic First, LLM Second - AI is a tool, not magic      │
+│  🏠 Local-First by Default - Run everything on your infrastructure │
+│  🔍 No Magic Hidden Behavior - Everything is inspectable           │
+│  📦 Composable Artifacts - Flows are versioned JSON                 │
+│                                                                     │
+└─────────────────────────────────────────────────────────────────────┘
+```
 
-Build complex conversation flows using a drag-and-drop visual editor. Each node represents a step in the conversation, with clear visual indicators for node types and connections.
-
-![IVAkit Flow Builder](docs/screenshots/studio-flow-builder.png)
-
-### Conversation Simulator
-
-Test your flows in real-time with the built-in simulator. See the actual conversation as it happens, with intent detection, confidence scores, and response times.
-
-![Simulator Chat View](docs/screenshots/simulator-chat.png)
-
-### Debug View
-
-Step through execution with the debugger. Inspect input/output at each node, see exactly what the LLM received and returned, and understand the flow's decision path.
-
-![Simulator Debug View](docs/screenshots/simulator-debug.png)
+> **IVAkit IVAs are *systems*, not chatbots.**
 
 ---
 
-## Features
+## 📸 Screenshots
 
-### 🎨 Visual Flow Builder (Studio)
+<div align="center">
 
-- Drag-and-drop node editor
-- 9 node types for complete coverage
-- Zoom, pan, snap-to-grid
-- Keyboard shortcuts
-- Dark mode
-- Real-time validation
+### 🎨 Visual Flow Builder
 
-### 📦 Node Types
+*Drag-and-drop conversation design with 9 node types*
 
-| Node | Purpose |
-|------|---------|
-| **Start** | Entry point, welcome message |
-| **Message** | Send static/templated response |
-| **Collect Input** | Wait for user input with validation |
-| **LLM Router** | AI-powered intent classification |
-| **Knowledge Search** | RAG retrieval from knowledge base |
-| **Tool Call** | HTTP/webhook integrations |
-| **Condition** | If/else branching logic |
-| **Escalate** | Hand off to human agent |
-| **End** | Terminate conversation |
+<img src="docs/screenshots/studio-flow-builder.png" alt="IVAkit Flow Builder" width="90%" style="border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);" />
+
+---
+
+### 💬 Live Conversation Simulator
+
+*Test flows in real-time with intent detection and confidence scores*
+
+<img src="docs/screenshots/simulator-chat.png" alt="Simulator Chat View" width="90%" style="border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);" />
+
+---
+
+### 🔍 Execution Debugger
+
+*Step through every node with full input/output inspection*
+
+<img src="docs/screenshots/simulator-debug.png" alt="Simulator Debug View" width="90%" style="border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);" />
+
+</div>
+
+---
+
+## ✨ Features
+
+<table>
+<tr>
+<td width="50%">
+
+### 🎨 Visual Flow Builder
+
+- ✅ Drag-and-drop canvas
+- ✅ 9 specialized node types
+- ✅ Real-time validation
+- ✅ Undo/Redo with history
+- ✅ Dark & Light themes
+- ✅ Keyboard shortcuts
+- ✅ Minimap navigation
+- ✅ Snap-to-grid editing
+- ✅ Export/Import flows
+
+</td>
+<td width="50%">
 
 ### 🧪 Conversation Simulator
 
-- Run flows live in browser
-- Step-by-step execution
-- Variable inspector
-- Tool call logs
-- LLM input/output viewer
-- Token & latency estimation
+- ✅ Live flow execution
+- ✅ Step-by-step debugging
+- ✅ Variable inspector
+- ✅ Intent confidence display
+- ✅ Token & latency metrics
+- ✅ Conversation history
+- ✅ Reset & replay
+
+</td>
+</tr>
+<tr>
+<td width="50%">
 
 ### ⚡ Runtime Engine
 
-- Loads published flow definitions (JSON)
-- Executes node-by-node
-- Maintains session state
-- Channel-agnostic design
-- Deterministic execution (except LLM nodes)
-- Fully auditable
+- ✅ JSON-based flow definitions
+- ✅ Node-by-node execution
+- ✅ Session state management
+- ✅ Channel-agnostic design
+- ✅ Deterministic execution
+- ✅ Full audit logging
 
-### 📚 Knowledge Base (RAG)
+</td>
+<td width="50%">
 
-- Upload documents (txt, md, pdf)
-- Chunk, embed, store locally
-- Retrieval with confidence scores
-- "Grounded-only" mode
+### 🤖 AI Integration
 
-### 📊 Analytics
+- ✅ Ollama (local AI)
+- ✅ OpenAI API
+- ✅ Anthropic Claude
+- ✅ Rules-based fallback
+- ✅ Structured outputs
+- ✅ Prompt templates
 
-- Conversations run
-- Completion rate
-- Fallback rate
-- Avg turns
-- Tool failures
+</td>
+</tr>
+</table>
+
+### 📦 Node Types
+
+| Node | Icon | Purpose | Configuration |
+|------|:----:|---------|---------------|
+| **Start** | 🟢 | Entry point | Welcome message |
+| **Message** | 💬 | Send response | Text, delay, markdown |
+| **Collect Input** | 📝 | Gather user input | Variable, validation, timeout |
+| **LLM Router** | 🧠 | AI intent classification | Prompt, model, intents, threshold |
+| **Knowledge Search** | 📚 | RAG retrieval | KB ID, query, top K |
+| **Tool Call** | 🔧 | External API call | Tool ID, inputs, output |
+| **Condition** | 🔀 | If/else branching | Conditions, operators, values |
+| **Escalate** | 🚨 | Human handoff | Reason, queue, transcript |
+| **End** | ⬛ | Terminate flow | Goodbye message, status |
 
 ---
 
-## Tech Stack
-
-| Layer | Technology |
-|-------|------------|
-| **Frontend** | Next.js 14, React Server Components, Tailwind CSS + shadcn/ui, React Flow, Framer Motion, Jotai |
-| **Backend** | Bun, Hono, tRPC, Zod |
-| **Database** | SQLite (libsql/Drizzle ORM) |
-| **AI** | Ollama (local), OpenAI/Anthropic (optional cloud) |
-| **Session State** | Redis-compatible |
-
----
-
-## Quick Start
+## 🚀 Quick Start
 
 ### Prerequisites
 
 - [Node.js](https://nodejs.org/) 20+
 - [pnpm](https://pnpm.io/) 8+
-- [Bun](https://bun.sh/) (for API server)
 - [Ollama](https://ollama.ai/) (optional, for local AI)
 
 ### Installation
 
 ```bash
 # Clone the repository
-git clone https://github.com/ivakit/ivakit.git
-cd ivakit
+git clone https://github.com/ryanshatz/IVAkit.git
+cd IVAkit
 
 # Install dependencies
 pnpm install
-
-# Copy environment variables
-cp .env.example .env
 
 # Start development servers
 pnpm dev
 ```
 
-This starts:
-- **Studio** at http://localhost:3000
-- **API** at http://localhost:3001
+**That's it!** Open [http://localhost:3000](http://localhost:3000) to start building.
 
-### With Docker
+### 🐳 Docker Setup
 
 ```bash
 # Start all services
 docker-compose up -d
 
-# Seed demo data
-pnpm db:seed
+# Services available:
+# - Studio:  http://localhost:3000
+# - API:     http://localhost:3001
+# - Ollama:  http://localhost:11434
 ```
 
-### Using Ollama (Local AI)
+### 🤖 Local AI with Ollama
 
 ```bash
 # Install Ollama
@@ -187,253 +207,212 @@ curl -fsSL https://ollama.ai/install.sh | sh
 # Pull a model
 ollama pull llama3.2
 
-# IVAkit will automatically connect to Ollama at localhost:11434
+# IVAkit auto-connects to localhost:11434
 ```
 
 ---
 
-## Project Structure
+## ⌨️ Keyboard Shortcuts
+
+| Shortcut | Action |
+|----------|--------|
+| `Ctrl/Cmd + Z` | Undo |
+| `Ctrl/Cmd + Shift + Z` | Redo |
+| `Ctrl/Cmd + S` | Save flow |
+| `Delete` | Delete selected node |
+| `Ctrl/Cmd + D` | Duplicate node |
+| `Ctrl/Cmd + E` | Export flow |
+| `Ctrl/Cmd + I` | Import flow |
+| `?` | Show help |
+
+---
+
+## 🏗️ Architecture
 
 ```
-ivakit/
-├── apps/
-│   ├── studio/          # Next.js frontend (visual builder)
-│   └── api/             # Hono + tRPC API server
-├── packages/
-│   ├── shared/          # Types, schemas, utilities
-│   ├── database/        # Drizzle ORM + SQLite schema
-│   ├── runtime/         # Flow execution engine
-│   └── ai/              # LLM adapters (Ollama, OpenAI, etc.)
-├── docs/                # Documentation
-│   ├── flow-spec.md     # Flow Specification v1.0
-│   └── screenshots/     # Application screenshots
-└── docker/              # Docker configuration
+                          ┌─────────────────────────────────┐
+                          │         IVAkit Studio           │
+                          │  ┌─────────┬─────────┬───────┐  │
+                          │  │  Node   │  Flow   │ Config│  │
+                          │  │ Palette │ Canvas  │ Panel │  │
+                          │  └─────────┴─────────┴───────┘  │
+                          └───────────────┬─────────────────┘
+                                          │ tRPC
+                                          ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│                           API Server (Hono)                          │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐  ┌──────────┐ │
+│  │   Flows API  │  │ Sessions API │  │ Knowledge API│  │ Analytics│ │
+│  └──────────────┘  └──────────────┘  └──────────────┘  └──────────┘ │
+└──────────────────────────────┬──────────────────────────────────────┘
+                               │
+         ┌─────────────────────┼─────────────────────┐
+         ▼                     ▼                     ▼
+┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐
+│  Flow Runtime   │  │    Database     │  │   AI Service    │
+│  ┌───────────┐  │  │    (SQLite)     │  │  ┌───────────┐  │
+│  │  Engine   │  │  │  ┌───────────┐  │  │  │  Ollama   │  │
+│  │  Executor │  │  │  │  Drizzle  │  │  │  │  OpenAI   │  │
+│  │  Handlers │  │  │  │    ORM    │  │  │  │ Anthropic │  │
+│  └───────────┘  │  │  └───────────┘  │  │  └───────────┘  │
+└─────────────────┘  └─────────────────┘  └─────────────────┘
 ```
 
 ---
 
-## Architecture
+## 📁 Project Structure
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                        IVAkit Studio                         │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────────┐   │
-│  │ Node Palette │  │ Flow Canvas  │  │ Config/Simulator │   │
-│  └──────────────┘  └──────────────┘  └──────────────────┘   │
-└────────────────────────────┬────────────────────────────────┘
-                             │ tRPC
-                             ▼
-┌─────────────────────────────────────────────────────────────┐
-│                        API Server                            │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────────┐   │
-│  │ Flow CRUD    │  │   Sessions   │  │    Analytics     │   │
-│  └──────────────┘  └──────────────┘  └──────────────────┘   │
-└────────────────────────────┬────────────────────────────────┘
-                             │
-         ┌───────────────────┼───────────────────┐
-         ▼                   ▼                   ▼
-┌─────────────────┐  ┌──────────────┐  ┌─────────────────┐
-│  Flow Runtime   │  │   Database   │  │   AI Service    │
-│  ┌───────────┐  │  │   (SQLite)   │  │  ┌──────────┐   │
-│  │ Executor  │  │  └──────────────┘  │  │ Ollama   │   │
-│  │ Handlers  │  │                    │  │ OpenAI   │   │
-│  │ Session   │  │                    │  │ Rules    │   │
-│  └───────────┘  │                    │  └──────────┘   │
-└─────────────────┘                    └─────────────────┘
+IVAkit/
+├── 📁 apps/
+│   ├── 📁 studio/              # Next.js visual builder
+│   │   ├── src/
+│   │   │   ├── app/            # App router pages
+│   │   │   ├── components/     # React components
+│   │   │   └── store/          # Jotai state management
+│   │   └── package.json
+│   └── 📁 api/                 # Hono API server
+│       ├── src/
+│       │   ├── router.ts       # tRPC routes
+│       │   └── context.ts      # Request context
+│       └── package.json
+├── 📁 packages/
+│   ├── 📁 shared/              # Types, schemas, utils
+│   ├── 📁 database/            # Drizzle ORM + SQLite
+│   ├── 📁 runtime/             # Flow execution engine
+│   └── 📁 ai/                  # AI provider adapters
+├── 📁 docs/                    # Documentation
+│   ├── flow-spec.md            # Flow specification
+│   └── screenshots/            # App screenshots
+└── 📁 docker/                  # Docker configs
 ```
 
 ---
 
-## Flow Specification
+## 🛠️ Tech Stack
 
-IVAkit uses a versioned Flow Specification (currently v1.0) that defines how conversation flows are structured. Flows are JSON documents that include:
+<div align="center">
 
-- **nodes[]** - The steps in the conversation
-- **edges[]** - Connections between nodes
-- **variables[]** - Data passed between nodes
-- **tools[]** - External integrations
+| Category | Technologies |
+|----------|-------------|
+| **Frontend** | ![Next.js](https://img.shields.io/badge/Next.js-14-black?logo=next.js) ![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=black) ![TypeScript](https://img.shields.io/badge/TypeScript-5.3-3178C6?logo=typescript&logoColor=white) ![Tailwind](https://img.shields.io/badge/Tailwind-3.4-06B6D4?logo=tailwindcss&logoColor=white) |
+| **State** | ![Jotai](https://img.shields.io/badge/Jotai-2.6-black) ![React Flow](https://img.shields.io/badge/React_Flow-11-FF6B6B) |
+| **Backend** | ![Hono](https://img.shields.io/badge/Hono-4.0-E36002?logo=hono&logoColor=white) ![tRPC](https://img.shields.io/badge/tRPC-10-2596BE) ![Bun](https://img.shields.io/badge/Bun-1.0-black?logo=bun&logoColor=white) |
+| **Database** | ![SQLite](https://img.shields.io/badge/SQLite-3-003B57?logo=sqlite&logoColor=white) ![Drizzle](https://img.shields.io/badge/Drizzle-ORM-C5F74F) |
+| **AI** | ![Ollama](https://img.shields.io/badge/Ollama-Local-black) ![OpenAI](https://img.shields.io/badge/OpenAI-API-412991?logo=openai&logoColor=white) ![Anthropic](https://img.shields.io/badge/Anthropic-Claude-D97757) |
 
-See [docs/flow-spec.md](docs/flow-spec.md) for the complete specification.
-
-### Example Flow (simplified)
-
-```json
-{
-  "version": "1.0",
-  "id": "flow_customer_support",
-  "name": "Customer Support",
-  "entryNode": "start_1",
-  "nodes": [
-    {
-      "id": "start_1",
-      "type": "start",
-      "config": {
-        "welcomeMessage": "Hello! How can I help you?"
-      }
-    },
-    {
-      "id": "router_1",
-      "type": "llm_router",
-      "config": {
-        "intents": [
-          { "name": "order_status", "targetNodeId": "..." },
-          { "name": "refund", "targetNodeId": "..." }
-        ]
-      }
-    }
-  ],
-  "edges": [
-    { "source": "start_1", "target": "router_1" }
-  ]
-}
-```
+</div>
 
 ---
 
-## AI Configuration
+## 📖 Documentation
 
-### Local (Default)
-
-IVAkit uses Ollama by default for local AI inference:
-
-```bash
-# .env
-OLLAMA_URL=http://localhost:11434
-OLLAMA_MODEL=llama3.2
-```
-
-### Cloud (Optional)
-
-To use OpenAI or Anthropic, set the API keys:
-
-```bash
-# .env
-ENABLE_CLOUD_AI=true
-OPENAI_API_KEY=sk-...
-# or
-ANTHROPIC_API_KEY=sk-ant-...
-```
-
-### Rules-Only Mode
-
-For deterministic routing without AI:
-
-```json
-{
-  "type": "llm_router",
-  "config": {
-    "model": { "provider": "rules" },
-    "intents": [...]
-  }
-}
-```
+| Document | Description |
+|----------|-------------|
+| [📋 Flow Specification](docs/flow-spec.md) | Complete flow JSON schema |
+| [🔧 Node Reference](docs/flow-spec.md#node-types) | Detailed node documentation |
+| [🚀 Deployment Guide](docs/deployment.md) | Production deployment |
+| [📡 API Reference](apps/api/README.md) | tRPC endpoint docs |
 
 ---
 
-## Documentation
+## 🗺️ Roadmap
 
-- [Flow Specification](docs/flow-spec.md) - Complete technical spec for flows
-- [Node Reference](docs/flow-spec.md#node-types) - Detailed node documentation
-- [API Reference](apps/api/README.md) - tRPC endpoint documentation
-- [Contributing Guide](CONTRIBUTING.md) - How to contribute
+<table>
+<tr>
+<td>
 
----
-
-## Development
-
-### Commands
-
-```bash
-# Development
-pnpm dev              # Start all apps in dev mode
-pnpm dev:studio       # Start only Studio
-pnpm dev:api          # Start only API
-
-# Database
-pnpm db:push          # Push schema changes
-pnpm db:seed          # Seed demo data
-pnpm db:studio        # Open Drizzle Studio
-
-# Testing
-pnpm test             # Run unit tests
-pnpm test:e2e         # Run e2e tests
-
-# Building
-pnpm build            # Build all packages
-pnpm lint             # Lint all packages
-```
-
-### Demo Flows
-
-IVAkit comes with two demo flows:
-
-1. **Customer Support** - Full-featured support IVA with intent routing, knowledge base, and escalation
-2. **Order Tracking** - Simple order status lookup with validation
-
----
-
-## Roadmap
-
-### v0.2 (Next)
+### v0.2 — Next Release
 - [ ] Flow versioning & rollback
 - [ ] Variable type validation
-- [ ] Enhanced simulator with replay
+- [ ] Enhanced simulator replay
 - [ ] Webhook inbound channel
+- [ ] Flow templates library
 
-### v0.3
-- [ ] Voice channel support (WebRTC)
-- [ ] Twilio Media Streams adapter
-- [ ] Real-time analytics dashboard
+</td>
+<td>
 
-### v1.0
+### v0.3 — Voice Support
+- [ ] WebRTC voice channel
+- [ ] Twilio Media Streams
+- [ ] Speech-to-text nodes
+- [ ] Voice activity detection
+
+</td>
+</tr>
+<tr>
+<td>
+
+### v1.0 — Enterprise
 - [ ] Multi-tenant support
 - [ ] Team collaboration
-- [ ] Deployment management
+- [ ] Role-based access control
+- [ ] Deployment pipelines
+
+</td>
+<td>
+
+### Beyond
 - [ ] CCaaS integrations
+- [ ] A/B testing
+- [ ] Analytics dashboard
+- [ ] Plugin marketplace
+
+</td>
+</tr>
+</table>
 
 ---
 
-## Contributing
+## 🤝 Contributing
 
-We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
+We love contributions! Whether it's bug reports, feature requests, or code contributions.
 
-### Development Setup
+```bash
+# Fork and clone
+git clone https://github.com/YOUR_USERNAME/IVAkit.git
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests
-5. Submit a pull request
+# Create a branch
+git checkout -b feature/amazing-feature
 
-### Code Style
+# Make your changes and test
+pnpm test
 
-- TypeScript strict mode
-- Zod for all runtime validation
-- Functional components with hooks
-- Meaningful commit messages
+# Submit a pull request
+```
 
----
-
-## License
-
-MIT License - see [LICENSE](LICENSE) for details.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines.
 
 ---
 
-## Acknowledgments
+## 📄 License
 
-Built with ❤️ using:
-- [Next.js](https://nextjs.org/)
-- [React Flow](https://reactflow.dev/)
-- [shadcn/ui](https://ui.shadcn.com/)
-- [Hono](https://hono.dev/)
-- [tRPC](https://trpc.io/)
-- [Ollama](https://ollama.ai/)
-- [Drizzle ORM](https://orm.drizzle.team/)
+This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
 
 ---
 
-<p align="center">
-  <sub>Built for contact centers that want AI that works.</sub>
-</p>
->>>>>>> 6dbaed4 (feat: IVAkit MVP - Open-source no-code AI IVA builder)
+<div align="center">
+
+### Built with ❤️ for Contact Centers
+
+<sub>
+IVAkit is open-source software created to make conversational AI accessible to everyone.
+</sub>
+
+<br />
+
+**[⭐ Star us on GitHub](https://github.com/ryanshatz/IVAkit)** — it helps!
+
+<br />
+
+<sub>
+<a href="https://nextjs.org/">Next.js</a> •
+<a href="https://reactflow.dev/">React Flow</a> •
+<a href="https://ui.shadcn.com/">shadcn/ui</a> •
+<a href="https://hono.dev/">Hono</a> •
+<a href="https://trpc.io/">tRPC</a> •
+<a href="https://ollama.ai/">Ollama</a> •
+<a href="https://orm.drizzle.team/">Drizzle</a>
+</sub>
+
+</div>
